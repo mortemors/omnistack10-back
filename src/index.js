@@ -1,8 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const app = express();
 const routes = require("./routes");
+const http = require("http");
+const { setupWebsocket } = require("./websocket");
+
+const app = express();
+const server = http.Server(app);
+
+setupWebsocket(server);
 
 mongoose.connect(
   "mongodb+srv://omnistack:omnistack@cluster0-bu6vs.mongodb.net/week10?retryWrites=true&w=majority",
@@ -24,4 +30,4 @@ app.use(routes);
 // Route Params: request.params (Identificar um recurso na alteração ou remoção)
 // Body: request.body (Dados para criação ou alteração de um registro)
 
-app.listen(3333);
+server.listen(3333);
